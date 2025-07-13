@@ -1,0 +1,549 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* Default variables (can serve as a fallback, but theme classes will override) */
+:root {
+    /* These will be fully overridden by .light-theme or .dark-theme */
+    --primary-color: #4CAF50;
+    --secondary-color: #388E3C;
+    --background-light: #f5f5f5;
+    --background-dark: #2c2c2c;
+    --text-color-light: #333;
+    --text-color-dark: #eee;
+    --card-background: #ffffff;
+    --border-color: #ddd;
+    --input-background: #fff;
+    --bot-message-bg: #e0f2f1;
+    --user-message-bg: #bbdefb;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-heavy: rgba(0, 0, 0, 0.2);
+    --delete-color: #ff5c5c; /* Universal delete color */
+    --delete-hover-color: #e00000;
+    --footer-btn-bg: #6c757d;
+    --footer-btn-hover-bg: #5a6268;
+    --theme-toggle-bg-light: #6c757d; /* Default background for theme button in light mode */
+    --theme-toggle-color-light: white; /* Default color for icon in light mode */
+    --theme-toggle-hover-light: #5a6268;
+    --theme-toggle-bg-dark: #555; /* Default background for theme button in dark mode */
+    --theme-toggle-color-dark: white; /* Default color for icon in dark mode */
+    --theme-toggle-hover-dark: #444;
+}
+
+/* --- THEME DEFINITIONS --- */
+
+/* Light Theme (CareBloom Green) */
+body.light-theme {
+    --primary-color: #4CAF50;
+    --secondary-color: #388E3C;
+    --background-light: #f5f5f5;
+    --background-dark: #2c2c2c; /* Sidebar background */
+    --text-color-light: #333;
+    --text-color-dark: #eee; /* Sidebar text */
+    --card-background: #ffffff;
+    --border-color: #ddd;
+    --input-background: #fff;
+    --bot-message-bg: #e0f2f1;
+    --user-message-bg: #bbdefb;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-heavy: rgba(0, 0, 0, 0.2);
+    --delete-color: #ff5c5c;
+    --delete-hover-color: #e00000;
+    --footer-btn-bg: #6c757d;
+    --footer-btn-hover-bg: #5a6268;
+    --theme-toggle-bg: var(--theme-toggle-bg-light); /* Button background for light theme */
+    --theme-toggle-color: var(--theme-toggle-color-light); /* Icon color for light theme */
+    --theme-toggle-hover: var(--theme-toggle-hover-light);
+}
+
+/* Dark Theme */
+body.dark-theme {
+    --primary-color: #66BB6A; /* Lighter green for contrast */
+    --secondary-color: #4CAF50; /* Primary green */
+    --background-light: #1a1a1a; /* Dark main background */
+    --background-dark: #0d0d0d; /* Even darker sidebar */
+    --text-color-light: #e0e0e0; /* Light text for dark bg */
+    --text-color-dark: #ffffff; /* White text for dark sidebar */
+    --card-background: #282828; /* Dark card background */
+    --border-color: #3a3a3a; /* Darker border */
+    --input-background: #333333;
+    --bot-message-bg: #3F51B5; /* Darker Blue */
+    --user-message-bg: #424242; /* Darker Grey */
+    --shadow-light: rgba(0, 0, 0, 0.3);
+    --shadow-heavy: rgba(0, 0, 0, 0.5);
+    --delete-color: #FF7043; /* Orange-red for delete */
+    --delete-hover-color: #BF360C;
+    --footer-btn-bg: #555;
+    --footer-btn-hover-bg: #444;
+    --theme-toggle-bg: var(--theme-toggle-bg-dark); /* Button background for dark theme */
+    --theme-toggle-color: var(--theme-toggle-color-dark); /* Icon color for dark theme */
+    --theme-toggle-hover: var(--theme-toggle-hover-dark);
+}
+
+
+/* --- BASE STYLING (Uses CSS variables, so it's theme-agnostic) --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--background-light);
+    color: var(--text-color-light);
+    overflow: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease; /* Smooth theme transitions */
+}
+
+.chatbot-container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    height: 85vh;
+    background-color: var(--card-background);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px var(--shadow-heavy);
+    overflow: hidden;
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.animated-message {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* --- Sidebar Styling --- */
+.sidebar {
+    width: 280px;
+    background-color: var(--background-dark);
+    color: var(--text-color-dark);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-right: 1px solid var(--border-color);
+    box-shadow: 2px 0 10px var(--shadow-light);
+    animation: slideInLeft 0.7s ease-out;
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header h2 {
+    margin: 0;
+    font-size: 1.8em;
+    color: var(--primary-color);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.chat-history {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding-right: 10px;
+}
+
+/* Custom scrollbar for history */
+.chat-history::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-history::-webkit-scrollbar-thumb {
+    background-color: var(--secondary-color);
+    border-radius: 4px;
+}
+
+.chat-history::-webkit-scrollbar-track {
+    background-color: var(--background-dark);
+}
+
+.chat-history h3 {
+    margin-top: 0;
+    font-size: 1.1em;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+#history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#history-list li {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    padding-right: 40px;
+    justify-content: space-between;
+}
+
+#history-list li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+#history-list li.active {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+/* --- Delete Button Styling --- */
+.delete-chat-btn {
+    background-color: transparent;
+    border: none;
+    color: var(--delete-color);
+    font-size: 1em;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+#history-list li:hover .delete-chat-btn {
+    opacity: 1;
+}
+
+.delete-chat-btn:hover {
+    color: var(--delete-hover-color);
+}
+
+.sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
+.sidebar-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.sidebar-btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.sidebar-btn i {
+    font-size: 1.1em;
+}
+
+/* --- Main Chat Area Styling --- */
+.chat-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-light);
+    animation: slideInRight 0.7s ease-out;
+    transition: background-color 0.5s ease;
+}
+
+.chat-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 10px var(--shadow-light);
+    position: relative;
+}
+
+.chat-header h1 {
+    margin: 0;
+    font-size: 1.6em;
+}
+
+/* Specific style for the theme toggle button in the header */
+.header-theme-btn {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    padding: 0; /* Remove padding to make it a tight square for the icon */
+    width: 40px; /* Set a fixed width */
+    height: 40px; /* Set a fixed height */
+    border-radius: 50%; /* Make it circular */
+    font-size: 1.2em; /* Increase icon size */
+    display: flex; /* Use flexbox for centering the icon */
+    align-items: center;
+    justify-content: center;
+    /* Apply theme-specific colors for the button itself */
+    background-color: var(--theme-toggle-bg);
+    color: var(--theme-toggle-color);
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px var(--shadow-light);
+}
+
+.header-theme-btn:hover {
+    background-color: var(--theme-toggle-hover); /* Hover color */
+    transform: translateY(-50%) scale(1.05); /* Slight scale on hover */
+}
+
+.header-theme-btn i {
+    font-size: 1em; /* Ensures the icon scales with parent font-size */
+}
+
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: var(--background-light);
+}
+
+/* Custom scrollbar for messages */
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background-color: var(--background-light);
+}
+
+.message {
+    max-width: 75%;
+    padding: 12px 18px;
+    border-radius: 20px;
+    line-height: 1.5;
+    position: relative;
+    box-shadow: 0 2px 5px var(--shadow-light);
+}
+
+.message p {
+    margin: 0;
+}
+
+.user-message {
+    align-self: flex-end;
+    background-color: var(--user-message-bg);
+    color: var(--text-color-light);
+    border-bottom-right-radius: 5px;
+}
+
+.bot-message {
+    align-self: flex-start;
+    background-color: var(--bot-message-bg);
+    color: var(--text-color-light);
+    border-bottom-left-radius: 5px;
+}
+
+/* --- Chat Input Area --- */
+.chat-input-area {
+    display: flex;
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--card-background);
+    gap: 10px;
+    align-items: center;
+    transition: background-color 0.5s ease, border-color 0.5s ease;
+}
+
+#user-input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1em;
+    resize: none;
+    max-height: 100px;
+    overflow-y: auto;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease, color 0.5s ease;
+    background-color: var(--input-background);
+    color: var(--text-color-light);
+}
+
+#user-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    /* Using 33 for 20% opacity on the primary color */
+    box-shadow: 0 0 0 3px var(--primary-color)33;
+}
+
+/* NEW: Styling for the Upload Button */
+.upload-btn {
+    background-color: var(--primary-color); /* Matches send button, or pick a different accent */
+    color: white;
+    border: none;
+    width: 48px; /* Same size as send button */
+    height: 48px; /* Same size as send button */
+    border-radius: 50%; /* Circular */
+    cursor: pointer;
+    font-size: 1.2em; /* Icon size */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px var(--shadow-light);
+}
+
+.upload-btn:hover {
+    background-color: var(--secondary-color); /* Matches send button hover */
+    transform: scale(1.05);
+}
+
+
+.send-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px var(--shadow-light);
+}
+
+.send-btn:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+/* --- Chat Footer --- */
+.chat-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--card-background);
+    transition: background-color 0.5s ease, border-color 0.5s ease;
+}
+
+.footer-btn {
+    background-color: var(--footer-btn-bg);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+}
+
+.footer-btn:hover {
+    background-color: var(--footer-btn-hover-bg);
+    transform: translateY(-2px);
+}
+
+.footer-btn i {
+    font-size: 1em;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .chatbot-container {
+        flex-direction: column;
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .sidebar-header {
+        margin-bottom: 15px;
+    }
+
+    .chat-history {
+        display: none;
+    }
+
+    .sidebar-buttons {
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+        padding-top: 15px;
+    }
+
+    .chat-main {
+        flex-grow: 1;
+        height: auto;
+    }
+
+    .chat-header {
+        padding: 15px;
+        /* Adjust padding for responsiveness if needed */
+    }
+
+    .header-theme-btn {
+        right: 15px; /* Adjust for smaller screens */
+        width: 36px; /* Slightly smaller on mobile */
+        height: 36px;
+        font-size: 1.1em; /* Adjust icon size */
+    }
+
+
+    .chat-input-area {
+        padding: 10px 15px;
+    }
+
+    .chat-footer {
+        justify-content: center;
+        padding: 10px 15px;
+    }
+}
