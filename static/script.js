@@ -7,9 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const newChatBtn = document.getElementById('new-chat-btn');
     const clearHistoryBtn = document.getElementById('clear-history-btn');
     const exportChatBtn = document.getElementById('export-chat-btn');
-    // Removed: const shareLink = document.getElementById('share-link');
-    const uploadBtn = document.getElementById('upload-btn'); // NEW: Reference to the upload button
-
+    
+    
     // Theme switcher elements
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const body = document.body;
@@ -321,28 +320,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     exportChatBtn.addEventListener('click', exportChat);
 
-    // Removed: generateShareLink function and shareLink event listener
+    
 
-    // --- NEW: Upload Functionality ---
-    uploadBtn.addEventListener('click', () => {
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = 'image/*, .pdf, .doc, .docx, .txt'; // Accept common image and document types
-        fileInput.multiple = true; // Allow multiple file selection
-
-        fileInput.addEventListener('change', (event) => {
-            const files = event.target.files;
-            if (files.length > 0) {
-                let fileNames = Array.from(files).map(file => file.name).join(', ');
-                alert(`Selected files: ${fileNames}. \n\nNote: File upload processing will be implemented in a later step.`);
-                // Here, you would typically read the files (e.g., with FileReader)
-                // and then send them to your backend (e.g., via FormData and fetch API).
-                // This is a placeholder for that complex logic.
-            }
-        });
-
-        fileInput.click(); // Programmatically click the hidden file input to open the file dialog
-    });
+    
 
 
     // --- Theme Switching Logic ---

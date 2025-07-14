@@ -408,27 +408,7 @@ body {
     box-shadow: 0 0 0 3px var(--primary-color)33;
 }
 
-/* NEW: Styling for the Upload Button */
-.upload-btn {
-    background-color: var(--primary-color); /* Matches send button, or pick a different accent */
-    color: white;
-    border: none;
-    width: 48px; /* Same size as send button */
-    height: 48px; /* Same size as send button */
-    border-radius: 50%; /* Circular */
-    cursor: pointer;
-    font-size: 1.2em; /* Icon size */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 2px 5px var(--shadow-light);
-}
 
-.upload-btn:hover {
-    background-color: var(--secondary-color); /* Matches send button hover */
-    transform: scale(1.05);
-}
 
 
 .send-btn {
